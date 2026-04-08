@@ -2959,4 +2959,5 @@ if __name__ == '__main__':
     # Debug off by default for safer sharing; set FLASK_DEBUG=1 for local dev. No reloader: long extractions.
     _debug = os.environ.get("FLASK_DEBUG", "").lower() in ("1", "true", "yes")
     _port = int(os.environ.get("PORT", "5000"))
-    app.run(debug=_debug, port=_port, use_reloader=False)
+    # 0.0.0.0 required for Docker / Cloud Run (not only localhost)
+    app.run(host="0.0.0.0", debug=_debug, port=_port, use_reloader=False)
