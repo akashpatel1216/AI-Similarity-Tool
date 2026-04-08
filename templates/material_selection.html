@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Materials to Compare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='material_selection.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="header-brand">
+                    <img class="header-logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="University of South Florida" onerror="this.style.display='none'">
+                    <div class="header-title">
+                        <h1>Select Materials to Compare</h1>
+                        <p>Choose what you want to compare between courses</p>
+                    </div>
+                </div>
+                <button onclick="history.back()" class="btn-back">← Back to Course Selection</button>
+            </div>
+        </header>
+
+        <div class="course-summary">
+            <div class="course-info">
+                <h3>Course A</h3>
+                <p id="course-a-name">Loading...</p>
+            </div>
+            <div class="course-info">
+                <h3>Course B</h3>
+                <p id="course-b-name">Loading...</p>
+            </div>
+        </div>
+
+        <div class="materials-section">
+            <h2>What would you like to compare?</h2>
+            <p class="subtitle">Select a material type to extract and compare</p>
+            
+            <div class="material-cards">
+                <div class="material-card" data-type="syllabus">
+                    <div class="card-icon">📋</div>
+                    <h3>Syllabus</h3>
+                    <p>Compare course syllabi, objectives, policies, and grading structure</p>
+                    <button class="btn-select" onclick="selectMaterial('syllabus')">Select Syllabus</button>
+                </div>
+
+                <div class="material-card" data-type="graded_assignments">
+                    <div class="card-icon">📝</div>
+                    <h3>Graded Materials</h3>
+                    <p>Compare graded assignments, quizzes, and exams between courses. Choose which items to include.</p>
+                    <button class="btn-select" onclick="selectMaterial('graded_assignments')">Select Graded Materials</button>
+                </div>
+
+                <div class="material-card" data-type="lectures">
+                    <div class="card-icon">📚</div>
+                    <h3>Lecture Materials</h3>
+                    <p>Compare all lecture slides, PDFs, and PPTs (ungraded materials combined)</p>
+                    <button class="btn-select" onclick="selectMaterial('lectures')">Select Lectures</button>
+                </div>
+
+                <div class="material-card" data-type="discussions">
+                    <div class="card-icon">💬</div>
+                    <h3>Discussions</h3>
+                    <p>Compare professor-created discussion prompts. Choose which posts to include.</p>
+                    <button class="btn-select" onclick="selectMaterial('discussions')">Select Discussions</button>
+                </div>
+
+                <div class="material-card" data-type="all_selected">
+                    <div class="card-icon">🎯</div>
+                    <h3>All Materials</h3>
+                    <p>Select and compare lectures, graded materials, and discussions in one combined analysis (syllabus excluded).</p>
+                    <button class="btn-select" onclick="selectMaterial('all_selected')">Select All Materials</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='user_identity.js') }}"></script>
+    <script src="{{ url_for('static', filename='material_selection.js') }}"></script>
+</body>
+</html>

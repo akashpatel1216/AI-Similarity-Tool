@@ -1,0 +1,30 @@
+# Environment variables
+.env
+config.py
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Data
+data/
+
+# Custom prompts (user-specific)
+custom_prompts.json
+prompt_history.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

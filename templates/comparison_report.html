@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparison Report - Course Similarity Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='report.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="header-brand">
+                    <img class="header-logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="University of South Florida" onerror="this.style.display='none'">
+                    <div class="header-title">
+                        <h1>📊 Detailed Comparison Report</h1>
+                        <p>AI-powered course analysis and similarity assessment</p>
+                    </div>
+                </div>
+                <div class="report-nav-btns">
+                    <button onclick="history.back()" class="btn-back">← Back</button>
+                    <button onclick="window.location.href='/'" class="btn-back">⟳ New Comparison</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="report-section">
+            <!-- Course Info Header -->
+            <div class="course-comparison-header">
+                <div class="course-badge course-a">
+                    <div class="course-label">Course A</div>
+                    <div class="course-professor" id="course-a-professor"></div>
+                    <div class="course-name" id="course-a-name">Loading...</div>
+                    <div class="course-term" id="course-a-term"></div>
+                </div>
+                <div class="course-badge course-b">
+                    <div class="course-label">Course B</div>
+                    <div class="course-professor" id="course-b-professor"></div>
+                    <div class="course-name" id="course-b-name">Loading...</div>
+                    <div class="course-term" id="course-b-term"></div>
+                </div>
+            </div>
+
+            <!-- Material Type Badge -->
+            <div class="material-badge" id="material-badge">
+                <span class="badge-label">Comparing:</span>
+                <span class="badge-value" id="material-type">Syllabus</span>
+            </div>
+
+            <!-- Report Content -->
+            <div class="report-content" id="report-content">
+                <div class="loading-report">
+                    <div class="loader"></div>
+                    <p>🤖 Gemini is analyzing the courses and generating your detailed report...</p>
+                    <p class="loading-subtext">This may take a moment</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="report-actions">
+                <button id="export-btn" class="btn-action btn-export-pdf" onclick="exportPDF()" disabled>
+                    📄 Export as PDF
+                </button>
+                <button id="copy-btn" class="btn-action" disabled>
+                    📋 Copy Report
+                </button>
+                <button onclick="window.location.href='/'" class="btn-action">
+                    🏠 Back to Home
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='report.js') }}"></script>
+</body>
+</html>

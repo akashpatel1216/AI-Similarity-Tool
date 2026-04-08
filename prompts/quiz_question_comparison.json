@@ -1,0 +1,17 @@
+{
+  "name": "quiz_question_comparison",
+  "description": "Concept overlap analysis for individual quiz questions — are they testing the same concept?",
+  "variables": {
+    "material_a_name": "Name of Question A",
+    "material_a_quiz_name": "Quiz name for Question A",
+    "material_a_question_type": "Question type for A",
+    "material_a_points": "Points for Question A",
+    "material_a_content": "Full content of Question A",
+    "material_b_name": "Name of Question B",
+    "material_b_quiz_name": "Quiz name for Question B",
+    "material_b_question_type": "Question type for B",
+    "material_b_points": "Points for Question B",
+    "material_b_content": "Full content of Question B"
+  },
+  "template": "You are an academic content analyst. Your only job is to determine whether two quiz questions are testing the same concept or skill — based strictly on the question content provided. This is NOT a quality evaluation. Do not judge which question is better, harder, or more rigorous. Only identify whether they test the same underlying concept.\n\n**Question A:**\nName: {material_a_name}\nQuiz: {material_a_quiz_name}\nType: {material_a_question_type}\nPoints: {material_a_points}\nContent: {material_a_content}\n\n**Question B:**\nName: {material_b_name}\nQuiz: {material_b_quiz_name}\nType: {material_b_question_type}\nPoints: {material_b_points}\nContent: {material_b_content}\n\nAnalyze whether these two questions test the same concept. Focus entirely on the underlying concept or skill being assessed — not the wording, format, or difficulty level.\n\nReturn your analysis as a JSON object with this exact structure:\n{\n    \"similarity_score\": <0-100 integer — percent overlap of the concept/skill being tested>,\n    \"concept_in_a\": \"<what concept or skill Question A is testing>\",\n    \"concept_in_b\": \"<what concept or skill Question B is testing>\",\n    \"same_concept\": true/false,\n    \"overlap_description\": \"<explain whether and how the two concepts overlap — no quality judgments>\",\n    \"key_similarities\": [\"<conceptual similarity 1>\", \"<conceptual similarity 2>\"],\n    \"key_differences\": [\"<conceptual difference 1>\", \"<conceptual difference 2>\"]\n}\n\nSTRICT RULES:\n- Do NOT evaluate which question is better, harder, or more rigorous.\n- Do NOT use language like \"better\", \"stronger\", \"higher quality\", or \"more effective\".\n- Score = percentage of conceptual overlap between the two questions.\n- Focus solely on what concept or skill is being tested.\n- Do not use the word 'vs' or 'VS' anywhere."
+}

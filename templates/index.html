@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Similarity Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="header-brand">
+                    <img class="header-logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="University of South Florida" onerror="this.style.display='none'">
+                    <div class="header-title">
+                        <h1>University Course Similarity Analysis Tool</h1>
+                        <p>Compare and analyze course materials across Canvas courses</p>
+                    </div>
+                </div>
+                <div class="header-buttons">
+                    <button id="config-btn" class="btn-config">⚙️ Configure Canvas</button>
+                    <button id="prompts-btn" class="btn-config">📝 Configure Prompts</button>
+                    <button id="support-btn" class="btn-config">💬 Support</button>
+                </div>
+            </div>
+            
+            <div id="config-panel" class="config-panel hidden">
+                <div class="config-content">
+                    <h3>Canvas Configuration</h3>
+                    <div class="input-group">
+                        <label for="canvas-url">Canvas URL:</label>
+                        <input type="text" id="canvas-url" placeholder="https://usflearn.instructure.com" value="https://usflearn.instructure.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="api-token">Canvas API Token:</label>
+                        <input type="password" id="api-token" placeholder="Enter your Canvas API token">
+                    </div>
+                    <div class="input-group">
+                        <label for="ai-api-key">AI / LLM API key:</label>
+                        <input type="password" id="ai-api-key" placeholder="Your model provider API key" autocomplete="off">
+                    </div>
+                    <div class="input-group">
+                        <label for="llm-model">Model name:</label>
+                        <input type="text" id="llm-model" placeholder="e.g. gemini-2.5-flash" autocomplete="off">
+                    </div>
+                    <div id="profiles-list" class="profiles-list">
+                        <p class="profiles-empty">No API keys added yet. Add up to 5 professors.</p>
+                    </div>
+                    <div class="config-actions">
+                        <button id="load-courses-btn" class="btn-primary">Add API Key</button>
+                        <button id="cancel-config-btn" class="btn-cancel">Cancel</button>
+                    </div>
+                    <div id="loading-message" class="loading hidden">Validating key and loading courses...</div>
+                    <div id="error-message" class="error hidden"></div>
+                    <div id="success-message" class="success hidden"></div>
+                </div>
+            </div>
+            
+            <div id="prompts-panel" class="config-panel hidden">
+                <div class="config-content">
+                    <div class="prompts-panel-header">
+                        <div>
+                            <h3>Configure AI Prompts</h3>
+                            <p class="subtitle">Customize the prompts used for course comparison. Changes are saved locally.</p>
+                        </div>
+                        <div class="llm-badge">
+                            <span class="llm-badge-icon">✦</span>
+                            <div class="llm-badge-text">
+                                <span class="llm-badge-label">Powered by</span>
+                                <span class="llm-badge-model">Gemini 3.0 Flash</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="prompts-tabs">
+                        <button class="prompt-tab active" data-prompt="syllabus_filtering">Syllabus Filtering</button>
+                        <button class="prompt-tab" data-prompt="syllabus_comparison">Syllabus Comparison</button>
+                        <button class="prompt-tab" data-prompt="lectures_comparison">Lectures Comparison</button>
+                        <button class="prompt-tab" data-prompt="generic_comparison">Generic Comparison</button>
+                        <button class="prompt-tab" data-prompt="quiz_question_comparison">Quiz Questions</button>
+                        <button class="prompt-tab" data-prompt="material_comparison">Material Comparison</button>
+                    </div>
+                    
+                    <div class="prompt-editor-container">
+                        <div class="prompt-info">
+                            <h4 id="prompt-name">Select a prompt to edit</h4>
+                            <p id="prompt-description"></p>
+                            <div id="prompt-variables" class="prompt-variables"></div>
+                        </div>
+                        
+                        <div class="prompt-editor">
+                            <label for="prompt-template">Prompt Template:</label>
+                            <textarea id="prompt-template" rows="20" placeholder="Select a prompt from tabs above..."></textarea>
+                            <div class="prompt-actions">
+                                <button id="save-prompt-btn" class="btn-primary">💾 Save Prompt</button>
+                                <button id="history-prompt-btn" class="btn-secondary">🕒 Version History</button>
+                                <button id="reset-prompt-btn" class="btn-secondary">🔄 Reset to Default</button>
+                                <button id="cancel-prompts-btn" class="btn-cancel">Cancel</button>
+                            </div>
+                            <div id="prompt-save-status" class="save-status"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="courses-section">
+            <div class="course-column">
+                <h2>Course A</h2>
+                <div class="dropdowns" id="dropdowns-a">
+                    <div class="dropdown-group">
+                        <label for="professor-a-select">Select Professor A:</label>
+                        <select id="professor-a-select" class="professor-select" disabled>
+                            <option value="">Select a professor</option>
+                        </select>
+                    </div>
+                    <div class="dropdown-group">
+                        <label for="course-a-1">Select Course for Professor A:</label>
+                        <div class="course-filters-row">
+                            <input type="text" id="course-a-search" class="course-search" placeholder="Search Course A..." disabled>
+                            <select id="course-a-semester" class="course-filter-select" disabled>
+                                <option value="">All Semesters</option>
+                            </select>
+                            <select id="course-a-year" class="course-filter-select" disabled>
+                                <option value="">All Years</option>
+                            </select>
+                        </div>
+                        <select id="course-a-1" class="course-select" disabled>
+                            <option value="">Select a course</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-column">
+                <h2>Course B</h2>
+                <div class="dropdowns" id="dropdowns-b">
+                    <div class="dropdown-group">
+                        <label for="professor-b-select">Select Professor B:</label>
+                        <select id="professor-b-select" class="professor-select" disabled>
+                            <option value="">Select a professor</option>
+                        </select>
+                    </div>
+                    <div class="dropdown-group">
+                        <label for="course-b-1">Select Course for Professor B:</label>
+                        <div class="course-filters-row">
+                            <input type="text" id="course-b-search" class="course-search" placeholder="Search Course B..." disabled>
+                            <select id="course-b-semester" class="course-filter-select" disabled>
+                                <option value="">All Semesters</option>
+                            </select>
+                            <select id="course-b-year" class="course-filter-select" disabled>
+                                <option value="">All Years</option>
+                            </select>
+                        </div>
+                        <select id="course-b-1" class="course-select" disabled>
+                            <option value="">Select a course</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-section">
+            <button id="continue-btn" class="btn-secondary" disabled>Continue to Material Selection</button>
+            <p class="info-text">💡 Tip: Select what materials you want to compare</p>
+        </div>
+    </div>
+
+    <!-- Prompt Version History Modal -->
+    <div id="history-modal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="history-modal-title">Version History</h3>
+                <button id="history-modal-close" class="modal-close-btn">✕</button>
+            </div>
+            <div id="history-modal-body" class="history-list">
+                <p class="history-empty">No previous versions saved yet.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Modal -->
+    <div id="support-modal" class="modal-overlay hidden">
+        <div class="modal-box support-modal-box">
+            <button id="support-modal-close" class="modal-close-btn support-close-btn">✕</button>
+            <div class="support-body">
+                <div class="support-avatar">AP</div>
+                <p class="support-built-by">Built by</p>
+                <h2 class="support-name">Akash Patel</h2>
+                <p class="support-tagline">Have a question or feedback? Reach out anytime.</p>
+                <a class="support-linkedin-btn" href="https://www.linkedin.com/in/akashp1216" target="_blank" rel="noopener noreferrer">
+                    <svg class="linkedin-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20.447 20.452H17.12v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.805V9h3.197v1.561h.046c.445-.842 1.532-1.732 3.154-1.732 3.374 0 3.997 2.22 3.997 5.11v6.513zM5.337 7.433a1.857 1.857 0 0 1-1.855-1.857 1.857 1.857 0 1 1 1.855 1.857zm1.602 13.019H3.733V9h3.206v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    Connect on LinkedIn
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='user_identity.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='prompts_config.js') }}"></script>
+</body>
+</html>

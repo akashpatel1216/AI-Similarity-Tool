@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Discussion Posts to Compare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='file_selection.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="header-brand">
+                    <img class="header-logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="University of South Florida" onerror="this.style.display='none'">
+                    <div class="header-title">
+                        <h1>Select Discussion Posts</h1>
+                        <p>Choose professor-created discussion prompts to compare between courses</p>
+                    </div>
+                </div>
+                <button onclick="history.back()" class="btn-back">← Back</button>
+            </div>
+        </header>
+
+        <div class="course-summary">
+            <div class="course-info">
+                <h3>Course A</h3>
+                <p id="course-a-name">Loading...</p>
+                <div class="file-count" id="course-a-count">0 discussions selected</div>
+            </div>
+            <div class="course-info">
+                <h3>Course B</h3>
+                <p id="course-b-name">Loading...</p>
+                <div class="file-count" id="course-b-count">0 discussions selected</div>
+            </div>
+        </div>
+
+        <div class="file-selection-container">
+            <div class="file-panel" id="panel-course-a">
+                <div class="panel-header">
+                    <h2>Course A - Discussion Posts</h2>
+                    <div class="panel-actions">
+                        <button class="btn-select-all" onclick="selectAll('a')">Select All</button>
+                        <button class="btn-deselect-all" onclick="deselectAll('a')">Deselect All</button>
+                    </div>
+                </div>
+                <div class="file-list" id="file-list-a">
+                    <div class="loading">Loading discussion posts...</div>
+                </div>
+            </div>
+
+            <div class="file-panel" id="panel-course-b">
+                <div class="panel-header">
+                    <h2>Course B - Discussion Posts</h2>
+                    <div class="panel-actions">
+                        <button class="btn-select-all" onclick="selectAll('b')">Select All</button>
+                        <button class="btn-deselect-all" onclick="deselectAll('b')">Deselect All</button>
+                    </div>
+                </div>
+                <div class="file-list" id="file-list-b">
+                    <div class="loading">Loading discussion posts...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-bar">
+            <div class="selection-summary">
+                <span id="total-selected">0 discussions selected total</span>
+            </div>
+            <button id="btn-continue" class="btn-continue" onclick="continueToExtraction()" disabled>
+                Continue to Extraction
+            </button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='user_identity.js') }}"></script>
+    <script src="{{ url_for('static', filename='discussion_selection.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Extraction - Course Similarity Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='extraction.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="header-brand">
+                    <img class="header-logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="University of South Florida" onerror="this.style.display='none'">
+                    <div class="header-title">
+                        <h1>Course Material Extraction</h1>
+                        <p>Extracting content from Canvas courses</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="extraction-section">
+            <div id="progress-view" class="progress-view split-screen">
+                <h2 class="extraction-header">Extracting & Filtering Course Materials</h2>
+                
+                <!-- Split Screen View -->
+                <div class="split-container">
+                    <!-- Course A Extraction -->
+                    <div class="extraction-panel">
+                        <div class="panel-header">
+                            <h3 id="course-a-header">📚 Course A</h3>
+                            <span id="course-a-status" class="status-badge">⏳ Waiting...</span>
+                        </div>
+                        <div class="extraction-items-section">
+                            <h4 class="extraction-items-title">What is being extracted</h4>
+                            <ul id="course-a-items" class="extraction-items-list"></ul>
+                        </div>
+                        <div class="extraction-log" id="course-a-log">
+                            <div class="log-entry waiting">⏳ Waiting to start...</div>
+                        </div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="vertical-divider"></div>
+
+                    <!-- Course B Extraction -->
+                    <div class="extraction-panel">
+                        <div class="panel-header">
+                            <h3 id="course-b-header">📚 Course B</h3>
+                            <span id="course-b-status" class="status-badge">⏳ Waiting...</span>
+                        </div>
+                        <div class="extraction-items-section">
+                            <h4 class="extraction-items-title">What is being extracted</h4>
+                            <ul id="course-b-items" class="extraction-items-list"></ul>
+                        </div>
+                        <div class="extraction-log" id="course-b-log">
+                            <div class="log-entry waiting">⏳ Waiting to start...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overall Progress -->
+                <div class="overall-progress">
+                    <div class="progress-label">
+                        <span>Overall Progress</span>
+                        <span id="progress-text">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <!-- Comparison Button (shown after extraction) -->
+                <div id="comparison-section" class="comparison-section hidden">
+                    <button id="start-comparison-btn" class="btn-compare">
+                        🔍 Start Comparison & Generate Report
+                    </button>
+                </div>
+            </div>
+
+            <div id="results-view" class="results-view hidden">
+                <h2>Extraction Complete</h2>
+                
+                <div class="course-results">
+                    <div class="course-result-column">
+                        <h3 id="course-a-title">Course A</h3>
+                        <div id="course-a-summary" class="course-summary"></div>
+                        <div id="course-a-materials" class="materials-list"></div>
+                    </div>
+
+                    <div class="course-result-column">
+                        <h3 id="course-b-title">Course B</h3>
+                        <div id="course-b-summary" class="course-summary"></div>
+                        <div id="course-b-materials" class="materials-list"></div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="back-btn" class="btn-secondary">Back to Selection</button>
+                    <button id="proceed-btn" class="btn-primary">Proceed to Comparison</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='user_identity.js') }}"></script>
+    <script src="{{ url_for('static', filename='extraction.js') }}"></script>
+</body>
+</html>

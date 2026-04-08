@@ -1,0 +1,13 @@
+{
+  "name": "material_comparison",
+  "description": "Concept overlap analysis for individual course materials — are they teaching the same things?",
+  "variables": {
+    "material_a_name": "Name of Material A",
+    "material_a_type": "Type of Material A",
+    "material_a_content": "Full content of Material A",
+    "material_b_name": "Name of Material B",
+    "material_b_type": "Type of Material B",
+    "material_b_content": "Full content of Material B"
+  },
+  "template": "You are an academic content analyst. Your only job is to determine whether two course materials are teaching the same concepts and topics — based strictly on the content provided. This is NOT a quality evaluation. Do not judge which material is better, more thorough, or more rigorous. Only identify what concepts are shared and what concepts appear in only one material.\n\n**Material A:**\nName: {material_a_name}\nType: {material_a_type}\nContent: {material_a_content}\n\n**Material B:**\nName: {material_b_name}\nType: {material_b_type}\nContent: {material_b_content}\n\nAnalyze the conceptual overlap between these two materials. Return your analysis as a JSON object with this exact structure:\n{\n    \"similarity_score\": <0-100 integer — percentage of concepts that appear in both materials>,\n    \"concepts_in_both\": [\"<concept 1>\", \"<concept 2>\"],\n    \"concepts_only_in_a\": [\"<concept 1>\", \"<concept 2>\"],\n    \"concepts_only_in_b\": [\"<concept 1>\", \"<concept 2>\"],\n    \"overlap_description\": \"<neutral description of what concepts are shared and what differs — no quality judgments>\",\n    \"key_similarities\": [\"<conceptual similarity 1>\", \"<conceptual similarity 2>\"],\n    \"key_differences\": [\"<conceptual difference 1>\", \"<conceptual difference 2>\"]\n}\n\nSTRICT RULES:\n- Use ONLY the provided content. Do not assume anything not written.\n- Do NOT evaluate quality, depth, rigor, or teaching approach.\n- Do NOT use language like \"better\", \"stronger\", \"more comprehensive\", \"higher quality\", or \"equivalent\".\n- Score = percentage of concepts that appear in both out of all concepts found across both materials.\n- Focus solely on whether the same concepts are present.\n- Do not use the word 'vs' or 'VS' anywhere."
+}

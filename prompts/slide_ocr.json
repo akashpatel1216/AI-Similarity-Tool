@@ -1,0 +1,9 @@
+{
+  "name": "slide_ocr",
+  "description": "OCR a single slide/page image and return structured JSON (extracts text including from images/diagrams)",
+  "template": "You are an OCR and content extraction system. You will receive an image of a single slide or page from a lecture (PowerPoint, PDF, or document).\n\nContext: This is slide/page number {slide_number} from the file \"{file_name}\".\n\nTASK: Extract ALL text visible in this image. This includes:\n- Titles and headings\n- Body text and bullet points\n- Text inside images, diagrams, charts, or screenshots (perform OCR on any embedded text)\n- Captions and labels\n- Speaker notes if visible\n- Any other readable text\n\nReturn ONLY a valid JSON object (no markdown, no code block wrapper) with this exact structure:\n{\n  \"slide_number\": <1-based page/slide number>,\n  \"text\": \"<full extracted text as a single string, newlines preserved where appropriate>\",\n  \"bullets\": [\"<bullet 1>\", \"<bullet 2>\", ...],\n  \"title\": \"<slide or section title if present, else empty string>\",\n  \"notes\": \"<speaker notes or footnotes if visible, else empty string>\"\n}\n\nRULES:\n- Use the slide_number value provided in the user message.\n- If no text is found, set text to \"\" and bullets to [].\n- Preserve meaning and order of content.\n- Do not invent or add content that is not in the image.\n- Output only the JSON object, nothing else.",
+  "variables": {
+    "slide_number": "1-based slide/page number",
+    "file_name": "Name of the source file (for context only)"
+  }
+}
